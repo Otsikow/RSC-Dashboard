@@ -2005,14 +2005,31 @@ function initSitesManagement() {
 }
 
 async function saveSite() {
+    const siteForm = document.getElementById('siteForm');
+    if (siteForm && !siteForm.reportValidity()) {
+        showToast('Please fill in all required fields', 'error');
+        return;
+    }
+
     const siteId = document.getElementById('siteId').value;
+    const siteName = document.getElementById('siteName').value.trim();
+    const address = document.getElementById('siteAddress').value.trim();
+    const contractType = document.getElementById('siteContractType').value.trim();
+    const billingRate = parseFloat(document.getElementById('siteBillingRate').value);
+    const requiredHours = parseFloat(document.getElementById('siteRequiredHours').value);
+
+    if (!siteName || !address || !contractType || !Number.isFinite(billingRate) || !Number.isFinite(requiredHours)) {
+        showToast('Please fill in all required fields', 'error');
+        return;
+    }
+
     const siteData = {
         id: siteId || `site-${Date.now()}`,
-        site_name: document.getElementById('siteName').value,
-        address: document.getElementById('siteAddress').value,
-        contract_type: document.getElementById('siteContractType').value,
-        billing_rate: parseFloat(document.getElementById('siteBillingRate').value),
-        required_weekly_hours: parseFloat(document.getElementById('siteRequiredHours').value),
+        site_name: siteName,
+        address: address,
+        contract_type: contractType,
+        billing_rate: billingRate,
+        required_weekly_hours: requiredHours,
         status: document.getElementById('siteStatus').value
     };
 
@@ -2037,6 +2054,10 @@ async function saveSite() {
             loadSitesTable();
             closeModal('siteModal');
             showToast(siteId ? 'Site updated successfully' : 'Site added successfully');
+        } else {
+            const errorText = await response.text();
+            console.error('Error saving site:', response.status, errorText);
+            showToast('Error saving site. Please check form values and try again.', 'error');
         }
     } catch (error) {
         console.error('Error saving site:', error);
