@@ -126,6 +126,23 @@ body {
     gap: var(--spacing-md);
 }
 
+.website-back-link {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.website-back-link:hover {
+    background-color: var(--bg-secondary);
+    color: var(--primary);
+}
+
 .menu-toggle {
     background: none;
     border: none;
