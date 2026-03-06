@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ream Cleaning Services - Operations Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <i class="fas fa-broom"></i>
+                <span>Ream Cleaning</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span class="user-name">Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#staff" class="nav-item" data-page="staff">
+                <i class="fas fa-users"></i>
+                <span>Staff</span>
+            </a>
+            <a href="#scheduling" class="nav-item" data-page="scheduling">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Scheduling</span>
+            </a>
+            <a href="#time-tracking" class="nav-item" data-page="time-tracking">
+                <i class="fas fa-clock"></i>
+                <span>Time Tracking</span>
+            </a>
+            <a href="#payroll" class="nav-item" data-page="payroll">
+                <i class="fas fa-pound-sign"></i>
+                <span>Payroll</span>
+            </a>
+            <a href="#sites" class="nav-item" data-page="sites">
+                <i class="fas fa-building"></i>
+                <span>Sites</span>
+            </a>
+            <a href="#reports" class="nav-item" data-page="reports">
+                <i class="fas fa-file-alt"></i>
+                <span>Reports</span>
+            </a>
+            <a href="#settings" class="nav-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Dashboard Page -->
+        <div class="page active" id="dashboard-page">
+            <div class="page-header">
+                <h1>Overview Dashboard</h1>
+                <p class="page-subtitle">Real-time operations overview</p>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="card summary-card">
+                    <div class="card-icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="activeStaffCount">0</h3>
+                        <p>Active Staff</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon green">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="hoursThisWeek">0</h3>
+                        <p>Hours This Week</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon purple">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="hoursThisMonth">0</h3>
+                        <p>Hours This Month</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon orange">
+                        <i class="fas fa-pound-sign"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="payrollDue">£0.00</h3>
+                        <p>Payroll Due</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon teal">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="shiftsToday">0</h3>
+                        <p>Shifts Today</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon red">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="missedShifts">0</h3>
+                        <p>Missed This Week</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3>Weekly Hours per Staff</h3>
+                    </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="weeklyHoursChart"></canvas>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3>Monthly Payroll Trend</h3>
+                    </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="payrollTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recent Shifts</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff</th>
+                                <th>Site</th>
+                                <th>Hours</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentShiftsTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff Page -->
+        <div class="page" id="staff-page">
+            <div class="page-header">
+                <h1>Staff Management</h1>
+                <button class="btn btn-primary" id="addStaffBtn">
+                    <i class="fas fa-plus"></i> Add Staff
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="staffSearch" placeholder="Search staff...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="staffStatusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <select id="staffTypeFilter" class="filter-select">
+                            <option value="">All Types</option>
+                            <option value="Full-Time">Full-Time</option>
+                            <option value="Part-Time">Part-Time</option>
+                            <option value="Contractor">Contractor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Type</th>
+                                <th>Rate</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff Profile Page -->
+        <div class="page" id="staff-profile-page" style="display: none;">
+            <div class="page-header">
+                <button class="btn btn-secondary" id="backToStaffBtn">
+                    <i class="fas fa-arrow-left"></i> Back to Staff
+                </button>
+                <h1 id="staffProfileName">Staff Profile</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="editStaffProfileBtn">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-danger" id="deleteStaffProfileBtn">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+
+            <!-- Staff Profile Summary -->
+            <div class="profile-summary">
+                <div class="card summary-card">
+                    <div class="card-icon blue">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="profileHoursToday">0.00</h3>
+                        <p>Hours Today</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon green">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="profileHoursWeek">0.00</h3>
+                        <p>Hours This Week</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon purple">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="profileHoursMonth">0.00</h3>
+                        <p>Hours This Month</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon orange">
+                        <i class="fas fa-pound-sign"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="profileEarnings">£0.00</h3>
+                        <p>Gross Earnings</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tabs -->
+            <div class="card">
+                <div class="tabs">
+                    <button class="tab active" data-tab="info">Information</button>
+                    <button class="tab" data-tab="shifts">Shifts</button>
+                    <button class="tab" data-tab="payroll">Payroll</button>
+                    <button class="tab" data-tab="notes">Notes</button>
+                </div>
+
+                <div class="tab-content active" id="info-tab">
+                    <div class="info-grid">
+                        <div class="info-section">
+                            <h3>Personal Information</h3>
+                            <div class="info-item">
+                                <label>Full Name:</label>
+                                <span id="infoFullName"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Phone:</label>
+                                <span id="infoPhone"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Email:</label>
+                                <span id="infoEmail"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Address:</label>
+                                <span id="infoAddress"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>NI Number:</label>
+                                <span id="infoNI"></span>
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3>Employment Details</h3>
+                            <div class="info-item">
+                                <label>Employment Type:</label>
+                                <span id="infoEmploymentType"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Hourly Rate:</label>
+                                <span id="infoHourlyRate"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Status:</label>
+                                <span id="infoStatus"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Default Site:</label>
+                                <span id="infoDefaultSite"></span>
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3>Bank Details</h3>
+                            <div class="info-item">
+                                <label>Account Name:</label>
+                                <span id="infoAccountName"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Sort Code:</label>
+                                <span id="infoSortCode"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Account Number:</label>
+                                <span id="infoAccountNumber"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Reference:</label>
+                                <span id="infoBankReference"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="shifts-tab">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Site</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Hours</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profileShiftsTable">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="payroll-tab">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Period</th>
+                                    <th>Hours</th>
+                                    <th>Gross Pay</th>
+                                    <th>Deductions</th>
+                                    <th>Net Pay</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profilePayrollTable">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="notes-tab">
+                    <button class="btn btn-primary" id="addNoteBtn" style="margin-bottom: 1rem;">
+                        <i class="fas fa-plus"></i> Add Note
+                    </button>
+                    <div id="notesContainer">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheduling Page -->
+        <div class="page" id="scheduling-page">
+            <div class="page-header">
+                <h1>Shift Scheduling</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="addShiftBtn">
+                        <i class="fas fa-plus"></i> Add Shift
+                    </button>
+                    <button class="btn btn-secondary" id="bulkAssignBtn">
+                        <i class="fas fa-users"></i> Bulk Assign
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendar Controls -->
+            <div class="card">
+                <div class="calendar-controls">
+                    <div class="view-toggle">
+                        <button class="btn btn-sm active" data-view="week">Week</button>
+                        <button class="btn btn-sm" data-view="month">Month</button>
+                    </div>
+                    <div class="calendar-navigation">
+                        <button class="btn btn-icon" id="prevPeriod">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="currentPeriod">Week of March 2, 2026</h3>
+                        <button class="btn btn-icon" id="nextPeriod">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="btn btn-secondary" id="todayBtn">Today</button>
+                    </div>
+                    <div class="filter-group">
+                        <select id="scheduleStaffFilter" class="filter-select">
+                            <option value="">All Staff</option>
+                        </select>
+                        <select id="scheduleSiteFilter" class="filter-select">
+                            <option value="">All Sites</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div class="card">
+                <div id="calendarView" class="calendar-view">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Shifts List -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Upcoming Shifts</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff</th>
+                                <th>Site</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shiftsTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Tracking Page -->
+        <div class="page" id="time-tracking-page">
+            <div class="page-header">
+                <h1>Time Tracking</h1>
+                <p class="page-subtitle">Clock in/out and attendance monitoring</p>
+            </div>
+
+            <!-- Active Shifts -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Active Shifts</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Staff</th>
+                                <th>Site</th>
+                                <th>Scheduled</th>
+                                <th>Clock In</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activeShiftsTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Today's Shifts -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Today's Shifts</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Staff</th>
+                                <th>Site</th>
+                                <th>Scheduled Time</th>
+                                <th>Actual Time</th>
+                                <th>Hours</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="todayShiftsTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payroll Page -->
+        <div class="page" id="payroll-page">
+            <div class="page-header">
+                <h1>Payroll Management</h1>
+                <button class="btn btn-primary" id="generatePayrollBtn">
+                    <i class="fas fa-calculator"></i> Generate Payroll
+                </button>
+            </div>
+
+            <!-- Payroll Summary -->
+            <div class="summary-cards">
+                <div class="card summary-card">
+                    <div class="card-icon blue">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="payrollWeekly">£0.00</h3>
+                        <p>Weekly Payroll</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon green">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="payrollMonthly">£0.00</h3>
+                        <p>Monthly Payroll</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon orange">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="payrollPaid">£0.00</h3>
+                        <p>Paid This Month</p>
+                    </div>
+                </div>
+                <div class="card summary-card">
+                    <div class="card-icon red">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="payrollPending">£0.00</h3>
+                        <p>Pending Payment</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payroll Records -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Payroll Records</h3>
+                    <div class="filter-group">
+                        <select id="payrollPeriodFilter" class="filter-select">
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                        <select id="payrollStaffFilter" class="filter-select">
+                            <option value="">All Staff</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Staff</th>
+                                <th>Period</th>
+                                <th>Hours</th>
+                                <th>Overtime</th>
+                                <th>Gross Pay</th>
+                                <th>Deductions</th>
+                                <th>Net Pay</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payrollTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sites Page -->
+        <div class="page" id="sites-page">
+            <div class="page-header">
+                <h1>Site Management</h1>
+                <button class="btn btn-primary" id="addSiteBtn">
+                    <i class="fas fa-plus"></i> Add Site
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Site Name</th>
+                                <th>Address</th>
+                                <th>Contract Type</th>
+                                <th>Billing Rate</th>
+                                <th>Required Hours</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sitesTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Page -->
+        <div class="page" id="reports-page">
+            <div class="page-header">
+                <h1>Reports & Exports</h1>
+            </div>
+
+            <div class="reports-grid">
+                <div class="card report-card">
+                    <div class="card-header">
+                        <i class="fas fa-users"></i>
+                        <h3>Staff Hours Report</h3>
+                    </div>
+                    <p>Export detailed staff hours for any period</p>
+                    <button class="btn btn-primary" onclick="exportReport('staff-hours')">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+                <div class="card report-card">
+                    <div class="card-header">
+                        <i class="fas fa-pound-sign"></i>
+                        <h3>Payroll Summary</h3>
+                    </div>
+                    <p>Complete payroll summary with deductions</p>
+                    <button class="btn btn-primary" onclick="exportReport('payroll')">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+                <div class="card report-card">
+                    <div class="card-header">
+                        <i class="fas fa-building"></i>
+                        <h3>Site Performance</h3>
+                    </div>
+                    <p>Site utilization and profitability metrics</p>
+                    <button class="btn btn-primary" onclick="exportReport('site-performance')">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+                <div class="card report-card">
+                    <div class="card-header">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Attendance Report</h3>
+                    </div>
+                    <p>Staff attendance and punctuality tracking</p>
+                    <button class="btn btn-primary" onclick="exportReport('attendance')">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="settings-page">
+            <div class="page-header">
+                <h1>System Settings</h1>
+            </div>
+
+            <div class="settings-container">
+                <!-- General Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>General Settings</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" id="settingCompanyName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <select id="settingCurrency" class="form-control">
+                                <option value="GBP">GBP (£)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="USD">USD ($)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Time Zone</label>
+                            <select id="settingTimezone" class="form-control">
+                                <option value="Europe/London">Europe/London (GMT)</option>
+                                <option value="Europe/Paris">Europe/Paris (CET)</option>
+                                <option value="America/New_York">America/New_York (EST)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payroll Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Payroll Settings</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>Overtime Threshold (hours/week)</label>
+                            <input type="number" id="settingOvertimeThreshold" class="form-control" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Overtime Multiplier</label>
+                            <input type="number" id="settingOvertimeMultiplier" class="form-control" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Default Pay Cycle</label>
+                            <select id="settingPayCycle" class="form-control">
+                                <option value="Weekly">Weekly</option>
+                                <option value="Bi-Weekly">Bi-Weekly</option>
+                                <option value="Monthly">Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shift Rules -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Shift Rules</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>Default Break Duration (minutes)</label>
+                            <input type="number" id="settingDefaultBreak" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Late Threshold (minutes)</label>
+                            <input type="number" id="settingLateThreshold" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Allow Early Clock-In</label>
+                            <select id="settingAllowEarlyClockIn" class="form-control">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="saveSettingsBtn">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- Add/Edit Staff Modal -->
+    <div class="modal" id="staffModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="staffModalTitle">Add Staff</h2>
+                <button class="modal-close" onclick="closeModal('staffModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="staffForm">
+                    <input type="hidden" id="staffId">
+                    
+                    <h3>Personal Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="staffFullName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" id="staffPhone" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="staffEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>National Insurance Number *</label>
+                            <input type="text" id="staffNI" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address *</label>
+                        <input type="text" id="staffAddress" class="form-control" required>
+                    </div>
+
+                    <h3>Employment Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employment Type *</label>
+                            <select id="staffEmploymentType" class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Contractor">Contractor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Hourly Rate (£) *</label>
+                            <input type="number" id="staffHourlyRate" class="form-control" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Default Site</label>
+                            <select id="staffDefaultSite" class="form-control">
+                                <option value="">Select Site</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status *</label>
+                            <select id="staffStatus" class="form-control" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3>Bank Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Account Name</label>
+                            <input type="text" id="staffAccountName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Sort Code (XX-XX-XX)</label>
+                            <input type="text" id="staffSortCode" class="form-control" placeholder="00-00-00">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Account Number (8 digits)</label>
+                            <input type="text" id="staffAccountNumber" class="form-control" maxlength="8">
+                        </div>
+                        <div class="form-group">
+                            <label>Reference (Optional)</label>
+                            <input type="text" id="staffBankReference" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('staffModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveStaffBtn">Save Staff</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Shift Modal -->
+    <div class="modal" id="shiftModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="shiftModalTitle">Add Shift</h2>
+                <button class="modal-close" onclick="closeModal('shiftModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="shiftForm">
+                    <input type="hidden" id="shiftId">
+                    
+                    <div class="form-group">
+                        <label>Staff *</label>
+                        <select id="shiftStaff" class="form-control" required>
+                            <option value="">Select Staff</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Site *</label>
+                        <select id="shiftSite" class="form-control" required>
+                            <option value="">Select Site</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="shiftRecurring">
+                            Recurring Weekly Shift
+                        </label>
+                    </div>
+
+                    <div id="singleDayFields">
+                        <div class="form-group">
+                            <label>Date *</label>
+                            <input type="date" id="shiftDate" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div id="multiDayFields" style="display: none;">
+                        <div class="form-group">
+                            <label>Select Multiple Days</label>
+                            <div id="multiDayCalendar" class="multi-day-calendar">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="recurringFields" style="display: none;">
+                        <div class="form-group">
+                            <label>Day of Week *</label>
+                            <select id="shiftDayOfWeek" class="form-control">
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                                <option value="0">Sunday</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Date *</label>
+                            <input type="date" id="shiftRecurringStart" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>End Date *</label>
+                            <input type="date" id="shiftRecurringEnd" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Start Time *</label>
+                            <input type="time" id="shiftStartTime" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Time *</label>
+                            <input type="time" id="shiftEndTime" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Break Duration (minutes) *</label>
+                        <input type="number" id="shiftBreak" class="form-control" value="30" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="shiftNotes" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="multiDayMode">
+                            Multi-Day Assignment
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('shiftModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveShiftBtn">Save Shift</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Site Modal -->
+    <div class="modal" id="siteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="siteModalTitle">Add Site</h2>
+                <button class="modal-close" onclick="closeModal('siteModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="siteForm">
+                    <input type="hidden" id="siteId">
+                    
+                    <div class="form-group">
+                        <label>Site Name *</label>
+                        <input type="text" id="siteName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address *</label>
+                        <input type="text" id="siteAddress" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contract Type *</label>
+                        <input type="text" id="siteContractType" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Billing Rate (£/hour) *</label>
+                            <input type="number" id="siteBillingRate" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Required Weekly Hours *</label>
+                            <input type="number" id="siteRequiredHours" class="form-control" step="0.5" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Status *</label>
+                        <select id="siteStatus" class="form-control" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('siteModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveSiteBtn">Save Site</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="noteModalTitle">Add Note</h2>
+                <button class="modal-close" onclick="closeModal('noteModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="noteForm">
+                    <input type="hidden" id="noteId">
+                    <input type="hidden" id="noteStaffId">
+                    
+                    <div class="form-group">
+                        <label>Note Content *</label>
+                        <textarea id="noteText" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="noteInternal">
+                            Internal Only (not visible to staff)
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('noteModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveNoteBtn">Save Note</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Assign Modal -->
+    <div class="modal" id="bulkAssignModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Bulk Shift Assignment</h2>
+                <button class="modal-close" onclick="closeModal('bulkAssignModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="bulkAssignForm">
+                    <div class="form-group">
+                        <label>Select Staff *</label>
+                        <div id="bulkStaffList" class="checkbox-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Site *</label>
+                        <select id="bulkSite" class="form-control" required>
+                            <option value="">Select Site</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="date" id="bulkDate" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Start Time *</label>
+                            <input type="time" id="bulkStartTime" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Time *</label>
+                            <input type="time" id="bulkEndTime" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Break Duration (minutes) *</label>
+                        <input type="number" id="bulkBreak" class="form-control" value="30" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('bulkAssignModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveBulkAssignBtn">Assign Shifts</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Main App JS -->
+    <script src="js/app.js"></script>
+    <!-- Fixes JS -->
+    <script src="js/fixes.js"></script>
+</body>
+</html>
