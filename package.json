@@ -1,0 +1,16 @@
+{
+  "name": "rcs-dashboard",
+  "version": "1.0.0",
+  "description": "**Company:** Ream Cleaning Services   **Industry:** Commercial & Residential Cleaning (UK)   **System Type:** Internal Operations Dashboard   **Status:** ✅ Production Ready",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "firebase": "^12.0.0"
+  }
+}
